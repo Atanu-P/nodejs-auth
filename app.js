@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const authRoutes = require("./routes/authRoutes");
 
 // express app
 const app = express();
@@ -31,3 +32,5 @@ app.get("/", (req, res) => {
 app.get("/profile", (req, res) => {
   res.render("profile");
 });
+
+app.use(authRoutes);
