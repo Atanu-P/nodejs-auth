@@ -23,6 +23,7 @@ app.set("view engine", "ejs");
 // middleware
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // route
 app.get("/", (req, res) => {
