@@ -2,4 +2,29 @@
 
 <h1>Login</h1>
 
+<div>
+    <form action="/login">
+        Email :
+        <input type="text" name="email"><br>
+        Password :
+        <input type="password" name="password"><br>
+        <button>Sign Up</button>
+    </form>
+</div>
+
 <%- include("./partials/footer.ejs") %>
+
+<script>
+    const form = document.querySelector("form");
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const email = form.email.value;
+        const password = form.password.value;
+
+        console.log({
+            email,
+            password
+        });
+    })
+</script>
