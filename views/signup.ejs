@@ -6,8 +6,10 @@
     <form action="/signup">
         Email :
         <input type="text" name="email"><br>
+        <p style="color: red;" id="email_error"></p>
         Password :
         <input type="password" name="password"><br>
+        <p style="color: red;" id="password_error"></p>
         <button>Sign Up</button>
     </form>
 </div>
@@ -16,9 +18,17 @@
 
 <script>
     const form = document.querySelector("form");
-    form.addEventListener("submit", (e) => {
+    const email_error = document.querySelector("#email_error");
+    const password_error = document.querySelector("#password_error");
+
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // reset errors
+        email_error.textContent = "";
+        password_error.textContent = "";
+
+        // get values
         const email = form.email.value;
         const password = form.password.value;
 
@@ -26,5 +36,35 @@
             email,
             password
         });
+
+        try {
+            const res = await fetch("/signup", {
+                method: "POST",
+                body: JSON.stringify({
+                    email,
+                    password
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await res.json();
+            console.log(data);
+
+            // show error
+            if (data.errors) {
+                email_error.textContent = data.errors.email;
+                password_error.textContent = data.errors.password;
+            }
+
+            // page redirect on sign
+            if (data.user) {
+                location.assign("/")
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     })
 </script>

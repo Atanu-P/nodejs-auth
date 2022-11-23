@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const authRoutes = require("./routes/authRoutes");
+const cookiParser = require("cookie-parser");
 
 // express app
 const app = express();
@@ -24,10 +25,12 @@ app.set("view engine", "ejs");
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookiParser());
 
 // route
 app.get("/", (req, res) => {
   res.render("home");
+  console.log("home");
 });
 
 app.get("/profile", (req, res) => {
@@ -35,3 +38,20 @@ app.get("/profile", (req, res) => {
 });
 
 app.use(authRoutes);
+
+// cookies examples
+// app.get("/set-cookies", (req, res) => {
+//   res.cookie("newUser", false);
+//   res.cookie("isEmployee", true, {
+//     maxAge: 1000 * 60 * 60 * 24,
+//     httpOnly: true,
+//   });
+//   console.log("cookie");
+//   res.send("you got the cookies");
+// });
+
+// app.get("/read-cookies", (req, res) => {
+//   const cookies = req.cookies;
+//   console.log(cookies);
+//   res.json(cookies);
+// });

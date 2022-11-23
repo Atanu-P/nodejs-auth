@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 const handleErrors = (err) => {
   console.log("###############################");
@@ -25,6 +26,12 @@ const handleErrors = (err) => {
   return errors;
 };
 
+// create jason web token
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, "secret", { expiresIn: maxAge });
+};
+
 router.get("/signup", (req, res) => {
   res.render("signup");
 });
@@ -34,7 +41,10 @@ router.post("/signup", async (req, res) => {
 
   try {
     const user = await User.create({ email, password });
-    res.status(201).json(user);
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(201).json({ user: user._id });
+    console.log(user);
   } catch (err) {
     const errors = handleErrors(err);
     // res.status(400).send("error, user not created");
