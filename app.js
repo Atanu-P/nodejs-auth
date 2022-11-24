@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const authRoutes = require("./routes/authRoutes");
 const cookiParser = require("cookie-parser");
-const { requireAuth } = require("./middleware/authMiddleware");
+const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 
 // express app
 const app = express();
@@ -29,6 +29,7 @@ app.use(express.json());
 app.use(cookiParser());
 
 // route
+app.get("*", checkUser);
 app.get("/", (req, res) => {
   res.render("home");
   console.log("home");

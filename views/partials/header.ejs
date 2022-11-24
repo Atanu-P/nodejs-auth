@@ -7,5 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Node Auth</title>
 </head>
+<% if(user){%>
+<h2>Welcome, <%= user.email %></h2>
+<%  } %>
+<nav>
+    <ul>
+        <% if(user){%>
+        <li><a href="/logout">Log out</a></li>
+        <% } else{%>
+        <li><a href="/login">Log In</a></li>
+        <li><a href="/signup">Sign up</a></li>
+        <% } %>
+    </ul>
+</nav>
 
 <body>

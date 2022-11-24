@@ -61,9 +61,9 @@
             }
 
             // page redirect on sign
-            // if (data.user) {
-            //     location.assign("/")
-            // }
+            if (data.user) {
+                location.assign("/profile")
+            }
 
         } catch (error) {
             console.log(error)
